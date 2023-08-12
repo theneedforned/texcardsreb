@@ -9,43 +9,20 @@ class Window(object):
         self.stdscr = curses.initscr()
         self.ovwin = curses.newwin(rows, columns, 0, 0)
         self.ttext = ""
-        self.gen = curses.newwin(rows-1, columns, 1, 0)#(columns//2)-10, 1,columns//2+1)
+        self.genb = curses.newwin(rows-1, columns, 1, 0)#(columns//2)-10, 1,columns//2+1)
+        self.genw = curses.newwin(rows-3, columns-2, 2, 1)#(columns//2)-10, 1,columns//2+1)
         self.gtext = ""
+        #self.bwin = curses.newwin(1, columns-2, self.columns, 0)#(columns//2)-10, 1,columns//2+1)
 
     
     def changedim(self, rows, columns):
         self.rows = rows
         self.columns = columns
-        self.gen.resize(self.rows-2, self.columns-1)
+        self.genb.resize(self.rows-1, self.columns)
+        self.genw.resize(self.rows-3, self.columns-2)
         self.refreshwin()
 
 
-    '''
-    def refresh(self, ocontent, pcontent):
-        """
-        ### summary
-        a function to refresh both the window and the pad made, the fuck did i make this for?.
-
-        ### params
-
-        ocontent - content of the window\n
-        pcontent - content of the pad
-        """
-        self.ovwin.clear()
-        self.gen.clear()
-
-        for x in ocontent:
-            self.ovwin.addch(x)
-
-        self.renderinpad(self.gen, pcontent, self.columns)
-        self.gen.border('|', '|', '-', '-', '+', '+', '+', '+')
-
-        y, x = self.ovwin.getmaxyx()
-        self.changedim(y, x)
-        
-        self.ovwin.refresh()
-        self.gen.refresh()
-    '''
     def refreshwin(self, ocontent = None, pcontent = None):
         """
         ### summary
@@ -57,7 +34,8 @@ class Window(object):
         pcontent - content of the pad
         """
         self.ovwin.clear()
-        self.gen.clear()
+        self.genb.clear()
+        self.genw.clear()
 
         if ocontent == None and pcontent == None:
             ocontent = self.ttext
@@ -69,19 +47,20 @@ class Window(object):
         for x in ocontent:
             self.ovwin.addch(x)
         
-        self.gen.border('|', '|', '-', '-', '+', '+', '+', '+')
-        self.renderinpad(self.gen, pcontent, self.columns)
+        self.genb.border('|', '|', '-', '-', '+', '+', '+', '+')
+        self.renderinpad(self.genw, pcontent, self.columns-1)
         
         self.ovwin.refresh()
-        self.gen.refresh()
+        self.genb.refresh()
+        self.genw.refresh()
     
+
     def start(self):
-        
         curses.noecho()
         curses.cbreak()
         self.refreshwin(f"E", "e")
         while True:
-            ch = self.gen.getch()
+            ch = self.genb.getch()
             if ch == curses.KEY_RESIZE:
                 size = os.get_terminal_size()
                 self.gtext = str(size)
@@ -114,5 +93,3 @@ class Window(object):
             for char in word:
                 pad.addstr(char)
                 amt += 1
-    #def resize(self, rows, columns):
-    
