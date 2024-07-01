@@ -1,24 +1,16 @@
 import curses
 from curses import wrapper
 import argparse
-import window
-import cards
+import cards.cards as cards
 
-parser = argparse.ArgumentParser(
-                    prog='ProgramName',
-                    description='What the program does',
-                    epilog='Text at the bottom of help')
+parser = argparse.ArgumentParser(prog = 'texcards',
+                    description = 'CLI script to study flashcards',
+                    epilog = 'made by theNeedForNed')
+parser.add_argument('--id', type=str, required=False, help='Load flash cards using an ID')
+parser.add_argument('--file', type=str, required=False, help='Load flash cards using a JSON file')
+parser.add_argument('-q', '--quiz',
+                    action='store_true')
 
-parser.add_argument('-f' ,'--filename')           # positional argument
-parser.add_argument('-q', '--quiz', action='store_true')      # option that takes a value
-#parser.add_argument('-v', '--verbose',
-#                    action='store_true')  # on/off flag
 args = parser.parse_args()
 
-#if args.filename != None:
-print(args.filename, args.quiz)
-
 cards.main()
-#win = window.Window()
-#wrapper()
-
