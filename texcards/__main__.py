@@ -13,4 +13,7 @@ parser.add_argument('-q', '--quiz',
 
 args = parser.parse_args()
 print(args)
-cards.main(file = args.file)
+if args.file:
+    cards.main(file = args.file)
+else:
+    cards.main()

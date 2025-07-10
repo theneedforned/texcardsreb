@@ -5,6 +5,7 @@ import random
 class cardSet:
     def __init__(self, type, data):
         if type == "file":
+            print(data)
             self.wordlist, self.jsonlist2 = self.fetchlist(data, 'file')
         self.inverse = False
         self.position = 0
@@ -58,7 +59,7 @@ class cardSet:
             ]
             return list
         if forid == 'file':
-            jsonlist = open(info)
+            jsonlist = open(info, 'r')
             jsonlist2 = json.loads(jsonlist.read())
             jsonlist.close()
             list = []

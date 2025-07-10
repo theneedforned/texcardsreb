@@ -5,6 +5,7 @@ import os
 
 def main(file = 'test.json'):
     size = os.get_terminal_size()
+    print(file)
     cardset = cardSet('file', file)
     win = Window(size[1], size[0], cardset)
     win.start()
