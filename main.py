@@ -12,5 +12,5 @@ parser.add_argument('-q', '--quiz',
                     action='store_true')
 
 args = parser.parse_args()
-
-cards.main()
+print(args)
+cards.main(file = args.file)
